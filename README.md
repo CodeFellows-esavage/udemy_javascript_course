@@ -125,5 +125,258 @@ JavaScript has 21 difference precedences. A higher precedence number means that 
     console.log(x)
   ```
 
+## Strings and Template Literals
+Sequence of characters used for text always contained within quotes `''` or `""` ex: `let firstName = 'Jonas';`
 
+You can concatenate simple or complex strings using the `+` operator:
+```
+const firstName = "Jonas";
+const job = "teacher";
+const birthYear = "1991";
+const year = 2037;
 
+let jonas = "I'm " + firstName + ', a ' + (year - birthYear) + ' years old ' + job + '!';
+console.log(jonas);
+```
+
+A better way to do this would be template literals.
+
+A template literal can assemble multiple pieces into one final string using backticks `` and ${variable_name} to reference any variables.
+
+```
+jonas = `I'm ${firstName}, a ${year - birthYear} years old ${job}!`;
+console.log(jonas);
+```
+
+Both of the above produce the same result: *I'm Jonas, a 46 years old teacher!*
+
+Multi-line strings:
+- Oldway:
+    ```
+    console.log('String with \n\
+    multiple \n\
+    lines');
+    ```
+- Template Literal:
+    ```
+    console.log(`String with
+    multiple
+    lines`);
+    ```
+
+## Taking Decisions: If/Else Statements
+If/Else Control structure:
+```
+if(condition) {
+code to be executed if true
+} else {
+code to be execute if false
+}
+```
+## Type Conversion and Coercion
+Converting a string to a number or boolean, or vice versa. You cannot convert to undefined, null, etc.
+
+Type Conversion - when you manually convert from one type for another.
+- `Number()` - function must start with capital N
+  - converts to a number, this doesn't permanently change the value type, it only affects instances where the `Number()` function is called.
+        ```
+        const inputYear = "1991";
+        console.log(inputYear+18);
+        //result: 199118
+        console.log(Number(inputYear)+18);
+        //result: 2009
+        ```
+  - if you try to use `Number()` on a string, `Number("Erik");` result will be NaN (Not a Number [invalid number]) which ironically has a typeof = number.
+- `String()` - function must start with captial S
+  - `console.log(String(23));` results in an output of "23".
+
+Type Coercion - when JavaScript automatically converts from one type to another.
+- Whenever there is an `+` operator between a number and a string, JavaScript will automatically convert that number to a string.
+  - `console.log("I'm " + 23 + ' years old');`, 23 is converted to a string and the result is "I'm 23 years old".
+- Whenever there is an `-`, `*`, `/`, `>`, `<` operators between a number and string number, JavaScript converts the strings to a number.
+  - `console.log("23" - 10);` result is 13 as "23" is converted to 23 then 10 is subtracted.
+
+## Truthy and Falsy Values
+Boolean() function in JavaScript converts a value to a boolean.
+- function must start with captial B
+
+Falsey Values (5 only) will all become `false` when converted to a boolean, all other values will become `true`.
+1. 0 `console.log(Boolean(0));` results in `false` 
+2. '' `console.log(Boolean(''));` results in `false` 
+3. undefined `console.log(Boolean(undefined));` results in `false` 
+4. null `console.log(Boolean(null));` results in `false` 
+5. NaN `console.log(Boolean(NaN));` results in `false` 
+
+Truthy Values - every other value that is not a falsy value above.
+
+The `Boolean()` function is rarely used, and we mostly rely on JavaScript Coercion.
+
+JavaScript uses type coercion when using
+ - example, any value entered into a if else statement, Javascript will automatically try to convert to a boolean using the truthy/falsey number guidelines.
+ - can use to check if a variable is defined or not:
+    ```
+    let height; // or height = 0; <-- this is a bug, because it is defined as 0, but be aware it will say it is undefined
+    if (height) {
+        console.log("Height is defined");
+    } else {
+        console.log("Height is undefined");
+    }
+    //result is false because height has no assigned value
+    height = 1;
+    if (height) {
+        console.log("Height is defined");
+    } else {
+        console.log("Height is undefined");
+    }
+    //result is true
+    ```
+
+## Equality Operators: == VS. ===
+`==` - loose equlity operator
+- `'18' == 18` is true ('18' was converted to 18)
+`===` - strict equality operator, this does not perform type coercion
+- `'18' === 18` is false ('18' is not converted to a number)
+
+**Try to use the strict `===` equality operator by default for cleaner code and avoiding bugs.**
+
+`!=` - loose different operator
+`!==` - strict different operator
+
+**Again, the strict `!==` operator is preferred.**
+
+## Boolean Logic
+Boolean logic is a branch of computer science which uses true and false values to solve complex logic problems, using several logical operators.
+
+Logical Operators:
+- AND - if A and B are `true`, result returns `true` all other combinations with a `false` returns `false`
+- OR - if either A or B are `true` result will return `true`
+- NOT - inverts the ture/false value
+
+## Logical Operators
+`&&` - AND operator
+`||` - OR operator
+`!` - NOT operator
+
+## The Switch Statement
+The switch statement is an alternative way to write and if else statement where you are cycling through multiple variables (example with day of the week shown below). Switch statements typically require slightly more code but are generally easier to understand visually.
+
+Switch Statements are comprised of a few components:
+```
+switch(variable_being_cycled){
+    case 'alternate_value_for_variable':
+        code to be executed;
+        additional code to be executed;
+        break;
+    default:
+        code to be executed;
+}
+```
+- switch(): calls the function on a variable
+- case: defines the value being evaluated for that variable, would typically have multiple cases in a switch statement
+- break: stops code below the break from being executed
+- default: code that will execute if value is called that isn't expected
+
+Switch statement compared to if else statement:
+```
+const day = 'monday';
+
+switch(day) {
+    case 'monday': //day === 'monday' uses strict equality 
+        console.log('Plan course structure');
+        console.log('Go to coding meetup');
+        break;
+    case 'tuesday':
+        console.log('prepare theory videos');
+        break;
+    case 'wednesday':
+    case 'thursday':
+        console.log("write code examples");
+        break;
+    case 'friday':
+        console.log('record videos');
+        break;
+    case 'saturday':
+    case 'sunday':
+        console.log('enjoy the weekend');
+        break;
+    default:
+        console.log('not a valid day');
+} 
+
+//without break; the code goes to the next day.
+//same code as switch but written with if else format
+
+if (day === 'monday') {
+    console.log('Plan course structure');
+    console.log('Go to coding meetup');
+} else if (day === 'tuesday'){
+    console.log('prepare theory videos');
+}else if (day === 'wednesday' || day === 'thursday'){
+    console.log("write code examples");
+}else if (day === 'friday'){
+    console.log('record videos');
+}else if (day === 'saturday' || day === 'sunday'){
+    console.log('enjoy the weekend');
+} else {
+    console.log('not a valid day');
+}
+```
+ ## Statements and Expressions
+ Expression - a piece of code that produces a value: (3 + 4), 1991, true && false
+ Statement - a bigger piece of code that does not produce a value of itself
+    ```
+    if (23 > 10) {
+        const str = '23 is bigger';
+    }
+    ```
+- 23 is bigger is a expression
+- the whole code is a statement
+- expressions cannot be placed in template literal
+
+## The Conditional (Ternary) Operator
+The Conditional Operator allows you to write something similar to an if else statement but all in one line.
+- only one line of code can be executed after true statement,
+  - `?` precedes condition if true
+  - `:` precedes condition if false
+  - example:
+    ```
+    const age = 23;
+    age >= 21 ? console.log('I can drink wine! 🍷') : console.log('I have to stick with water. 💧');
+    ```
+Is an expression and can be used to conditionally assign values to variables.
+```
+const drink = age >= 21 ? 'wine! 🍷' : 'water 💧';
+
+//these two code blocks execute the same thing
+
+let drink;
+if (age >= 21){
+    drink = 'wine 🍷';
+} else{
+    drink = 'water 💧';
+}
+```
+The conditional operator can also be placed in a template literal as it's output is a value.
+```
+console.log(`I like to drink ${age >= 21 ? 'wine 🍷' : "water 💧"}`);
+```
+Not a replacement for if else statements, but is perfect for taking quick decsions.
+
+## Javascript Releases ES5, ES6, ES+
+1995 Netscape, Bredan Eich creates the first version of JavaScript called Mocha
+1996 mocha renamed to livescript and then again to JavaScript, Microsoft copies JavaScript from NetScape and names it JScript
+1997 ES1 released to standardize JavaScript
+2009 ES5 released with lots of features
+2015 ES6 biggest update to language ever, changed to annual release cycle
+
+JavaScript releases always provide backwards compatibility so they don't break the web (all the way back to ES1).
+
+JavaScript is not forwards compatible as they are limited by what the web browsers can read.
+
+How to use modern javascript:
+1. During Development: use latest version of Google Chrome
+2. During Production: use Babel to transpile and polyfill your code (convert back to ES5 to ensure browser compatibility).
+
+ES5 is supported by all browsers today.
+
+ES6+ is well supported by all modern browsers but not older browsers (modern JavaScript)

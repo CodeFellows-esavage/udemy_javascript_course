@@ -66,36 +66,157 @@ which contains a string with this format: 'Portugal is in Europe, and its 11 mil
 // console.log(population > finlandPop);
 // const description = "The USA is in North America, and its 333 million people speak english."
 
-//Coding Challenge #1
-// all measurements in metric
+/*
+LECTURE: Strings and Template Literals
+1. Recreatethe'description'variablefromthelastassignment,thistime using the template literal syntax
+const country = 'USA';
+const continent = 'North America';
+let population = 333;
+const isIsland = true;
+let language = 'English';
 
-//data set 1:
-// const markMass = 78;
-// const markHeight = 1.69;
-// const johnMass = 92;
-// const johnHeight = 1.95;
-// const markBMI = markMass / markHeight ** 2;
-// const johnBMI = johnMass / (johnHeight * johnHeight);
-// console.log(markBMI, johnBMI);
-// let markHigherBMI = markBMI > johnBMI;
-// console.log(markHigherBMI);
-// results markBMI = 27.3, johnBMI = 24.2, true (mark has a higher BMI)
+const description = `The ${country} is in ${continent}, and its ${population} million people speak ${language}.`
+console.log(description);
+*/
 
-//data set 2:
-const markMass = 95;
-const markHeight = 1.88;
-const johnMass = 85;
-const johnHeight = 1.76;
-const markBMI = markMass / markHeight ** 2;
-const johnBMI = johnMass / (johnHeight * johnHeight);
-console.log(markBMI, johnBMI);
-let markHigherBMI = markBMI > johnBMI;
-console.log(markHigherBMI);
-//results in markBMI = 26.8, johnBMI = 27.4, false, (mark has a lower BMI)
+/*
+LECTURE: Taking Decisions: if / else Statements
+1. Ifyourcountry'spopulationisgreaterthat33million,logastringlikethistothe console: 'Portugal's population is above average'. Otherwise, log a string like 'Portugal's population is 22 million below average' (the 22 is the average of 33 minus the country's population)
+2. Aftercheckingtheresult,changethepopulationtemporarilyto13andthento 130. See the different results, and set the population back to original
+const country = 'USA';
+const continent = 'North America';
+let population = 333;
+const isIsland = true;
+let language = 'English';
+
+const avgPop = 33;
+if (population > avgPop){
+    console.log(`The ${country}'s population is above average`);
+} else {
+    let popDiff = 33 - population;
+    console.log(`The ${country}'s population is ${popDiff} million below average`);
+}
+*/
+
+/*
+LECTURE: Type Conversion and Coercion
+1. Predicttheresultofthese5operationswithoutexecutingthem:
+     '9' - '5'; result will be 4
+     '19' - '13' + '17'; result will be '617'
+     '19' - '13' + 17; result will be 23
+     '123' < 57; result will be false
+     5 + 6 + '4' + 9 - 4 - 2; result will be 1143
+2. Executetheoperationstocheckifyouwereright
+
+console.log('9' - '5');
+console.log('19' - '13' + '17');
+console.log('19' - '13' + 17);
+console.log('123' < 57);
+console.log(5 + 6 + '4' + 9 - 4 - 2);
+*/
+
+/*
+LECTURE: Equality Operators: == vs. ===
+1. Declareavariable'numNeighbours'basedonapromptinputlikethis: prompt('How many neighbour countries does your country have?');
+2. Ifthereisonly1neighbour,logtotheconsole'Only1border!'(uselooseequality == for now)
+3. Useanelse-ifblocktolog'Morethan1border'incase'numNeighbours' is greater than 1
+4. Useanelseblocktolog'Noborders'(thisblockwillbeexecutedwhen 'numNeighbours' is 0 or any other value)
+5. Testthecodewithdifferentvaluesof'numNeighbours',including1and0.
+6. Change==to===,andtestthecodeagain,withthesamevaluesof
+'numNeighbours'. Notice what happens when there is exactly 1 border! Why
+is this happening?
+7. Finally,convert'numNeighbours'toanumber,andwatchwhathappensnow
+when you input 1
+8. Reflectonwhyweshouldusethe===operatorandtypeconversioninthis
+situation
+
+let numNeighbours = Number(prompt('How many neighbour countries does your country have?'));
+if(numNeighbours === 1){
+    console.log("Only 1 border!");
+} else if (numNeighbours > 1) {
+    console.log("More than 1 border!");
+} else{
+    console.log("No borders!");
+    
+}
+
+*/
+
+/*
+LECTURE: Logical Operators
+1. Commentoutthepreviouscodesothepromptdoesn'tgetintheway
+2. Let'ssaySarahislookingforanewcountrytolivein.Shewantstoliveina
+country that speaks english, has less than 50 million people and is not an
+island.
+3. WriteanifstatementtohelpSarahfigureoutifyourcountryisrightforher.
+You will need to write a condition that accounts for all of Sarah's criteria. Take
+your time with this, and check part of the solution if necessary.
+4. Ifyoursistherightcountry,logastringlikethis:'YoushouldliveinPortugal:)'.If
+not, log 'Portugal does not meet your criteria :('
+5. Probablyyourcountrydoesnotmeetallthecriteria.Sogobackandtemporarily
+change some variables in order to make the condition true (unless you live in Canada :D)
+
+const country = 'USA';
+const continent = 'North America';
+let population = 333;
+const isIsland = false;
+let language = 'English';
+
+console.log(Boolean(language === 'English'));
+console.log(Boolean(population < 50));
+console.log(Boolean(!isIsland));
+
+if(language === 'English' && population < 50 && !isIsland){
+    console.log(`You should live in ${country}!`);
+} else {
+    console.log(`${country} does not meet your requirements :(`);
+}
+*/
+
+/*
+LECTURE: The switch Statement
+1. Useaswitchstatementtologthefollowingstringforthegiven'language': chinese or mandarin: 'MOST number of native speakers!'
+spanish: '2nd place in number of native speakers'
+english: '3rd place'
+hindi: 'Number 4'
+arabic: '5th most spoken language'
+for all other simply log 'Great language too :D'
 
 
+let language = 'hindi';
 
+switch(language) {
+    case 'chinese':
+    case 'mandarin':
+        console.log("MOST number of native speakers!")
+        break;
+    case 'spanish':
+        console.log("2nd place in number of native speakers!")
+        break;
+    case 'english':
+        console.log("3rd place in number of native speakers!")
+        break;
+    case 'hindi':
+        console.log("Number 4")
+        break;
+    case 'arabic':
+        console.log("5th most spoken language")
+        break;
+    default:
+        console.log('great language too 😃')
+}
+*/
 
+/*
+LECTURE: The Conditional (Ternary) Operator
+1. Ifyourcountry'spopulationisgreaterthan33million,usetheternaryoperator to log a string like this to the console: 'Portugal's population is above average'. Otherwise, simply log 'Portugal's population is below average'. Notice how only one word changes between these two sentences!
+2. Aftercheckingtheresult,changethepopulationtemporarilyto13andthento 130. See the different results, and set the population back to original
 
+const country = 'USA';
+const continent = 'North America';
+let population = 333;
+const isIsland = false;
+let language = 'English';
 
-
+population > 33 ? console.log(`${country}'s population is above average.`) : console.log(`${country}'s population is below average`);
+*/
