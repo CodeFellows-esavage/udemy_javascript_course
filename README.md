@@ -1,8 +1,11 @@
 # udemy_javascript_course
 Repository containing notes and all projects associated with the  complete-javascript-course on udemy.
 
+## Table of Contents
+- [JavaScript Fundamentals Part 1](#JavaScript-Fundamentals-Part-1)
+- [JavaScript Fundamentals Part 2](#JavaScript-Fundamentals-Part-2)
 
-# Javascript Fundamentals Part 1
+# JavaScript Fundamentals Part 1
 
 ## What is JavaScript
 
@@ -380,3 +383,177 @@ How to use modern javascript:
 ES5 is supported by all browsers today.
 
 ES6+ is well supported by all modern browsers but not older browsers (modern JavaScript)
+
+# JavaScript Fundamentals Part 2
+
+## JavaScript Strict Mode
+Adding the `'use strict';` as your first line of code in your JavaScript script activates strict mode.
+
+Strict mode does two things:
+1. Forbids the coder from performing certain actions
+2. In certain situations creates visible errors in the developer console where without strict mode it would have failed silently
+   - misspelling variables in code
+   - preventing from using future keywords as variables (interface, private)
+
+Best practice is to always code in strict mode.
+
+## Functions
+Functions are a piece of code you can reuse over and over again. They can hold multiple lines of code.
+
+```
+function function_name() {
+    code to be executed;
+}
+```
+
+Calling, invoking, or running the function:
+- `function_name();`
+
+Functions can both recieve (parameters) and return data.
+- Parameters: represent the input data into a funcition
+  - `function_name(parameter1, parameter2);
+  - values of the parameters are called the **arguement**
+- Return: using return at the end of a function allows you to utilize a value or result of the function outside of the function.
+  - immediately exits the function
+  - code written after the return line will not be executed (eg: a console.log after the return line)
+
+Principle: Do not repeat yourself (code) (referenced as keeping your code dry). Use functions to maintain clean efficient code.
+
+## Function Declarations VS Expressions
+Function delcalarations can be called before the function is declared, where a function expression cannot. Function expressions are functions stored in a variable. It is developer preference in which method they choose to use.
+
+A function declaration is structure as:
+```
+function calcAge1(birthYear) {
+    return 2037 - birthYear;
+}
+
+const age1 = calcAge1(1991);
+console.log(age1);
+```
+
+A function expression is stuctured as:
+```
+const calcAge2 = function(birthYear){
+    return 2037 - birthYear;
+}
+
+const age2 = calcAge2(1991);
+console.log(age1, age2);
+```
+
+## Arrow Functions
+A special form of function expression that is shorter and faster to write
+- Return result is implicit for arrow functions with one line of code to execute
+- Multiple code lines require an explicit return call and braces {} to encolse both codes lines
+- Multiple paramaters can be handled by placing the parameters in paraenthesis ()
+- Arrow functions loose their advantage when the function gets too complex
+- Call the function just like function declarations and function expressions
+- Arrow functions do not get a "this" keyword (more on this later)
+
+Basic arrow function:
+```
+const calcAge3 = birthYear => 2037 - birthYear;
+```
+
+Delcare variable to store arrow function, argument for arrow function, `=>`, code to be executed and returned.
+
+Multiline arrow function:
+```
+const yearsUntilRetirement = birthYear => {
+    const age = 2021 - birthYear;
+    const retirement = 65 - age;
+   return retirement;
+}
+```
+Note the addition of writing the return line and capturing code in curly braces
+
+Multiline, mulitparameter arrow function:
+```
+const yearsUntilRetirement = (birthYear, firstName) => {
+    const age = 2021 - birthYear;
+    const retirement = 65 - age;
+    return `${firstName} retires in ${retirement} years.`
+}
+```
+Note parameters are now in paranthesis ()
+
+## Functions Calling Other Functions
+A common practice, that can help maintain dry code and reduce the number of lines in code that need to be updated should the way the code executes.
+
+example:
+```
+function cutFruitPieces(fruit){
+    return fruit * 4;
+}
+
+function fruitProcessor(apples, oranges){
+    const applePieces = cutFruitPieces(apples);
+    const orangePieces = cutFruitPieces(oranges);
+    const juice = `Juice with ${applePieces} apple pieces and ${orangePieces} orange pieces.`;
+    return juice;
+}
+
+console.log(fruitProcessor(2, 3));
+```
+Returns "Juice with 8 apple pieces and 12 orange pieces."
+
+## Arrays
+Arrays are a type of datastructure. They can use arrays to bundle multiple variables, without having to declare multiple versions.
+- arrays are 0 based, which means the first element in the array is 0
+- arrays have properties
+  - array_name.array_property
+  - .length for example pull the total number of elements in the array.
+
+Inputing data into an Array:
+
+```
+//non array
+const friend1 = "Micheal";
+const friend2 = "Steve";
+const friend3 = "Peter";
+//array
+const friends = ['Micheal', "Steven", 'Peter'];
+```
+Ensure when making an array of strings the comma is outside of the strings quotation marks.
+
+Alternately you can write array's using this additional syntax:
+```
+const years = new Array(1999, 2004, 2012);
+```
+
+Although, using the brackets (literal syntax) is the more common way.
+
+Getting data out of an Array:
+
+You can pull data out of an array using the syntax below, which will result in "Micheal".
+```
+console.log(friends[0]);
+```
+You can mutate an array by assigning a position in the array a new value.
+```
+friends[2] = 'Jay';
+```
+Changes last person from Peter to Jay. So even an array declared with const can be mutated. But you cannot reassign all of the values.
+
+When creating arrays you can assign numbers, strings, expressions, variables, or even other arrays to a given position.
+```
+const firstName = 'Jonas';
+const jonas = [firstName, 'Schmedtmann', 2037 - 1991, 'teacher', friends];
+```
+
+Passing arrays into functions:
+
+## Array Operations (Methods)
+- `.push()` - adds and element to the end of an array
+  - returns a value (length of the array), do get that value you can store it in a variable
+- `.unshift()` - adds an element to the end of an array
+  - also returns value (length of the array)
+- `.pop()` - removes the last element from an array
+  - returns value of removed element
+- `.shift()` - removes the first element from an array
+  - returns value of removed element
+- `.indexOf()` - returns index of a value in an array
+- `.includes()` - returns `true` or `false` if the item is in an array or not
+
+
