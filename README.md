@@ -4,6 +4,7 @@ Repository containing notes and all projects associated with the  complete-javas
 ## Table of Contents
 - [JavaScript Fundamentals Part 1](#JavaScript-Fundamentals-Part-1)
 - [JavaScript Fundamentals Part 2](#JavaScript-Fundamentals-Part-2)
+- [Developer Skills & Editor Setup](#Developer-Skills-&-Editor-Setup)
 
 # JavaScript Fundamentals Part 1
 
@@ -524,6 +525,18 @@ const years = new Array(1999, 2004, 2012);
 
 Although, using the brackets (literal syntax) is the more common way.
 
+example:
+```
+const firstName = 'Jonas';
+const jonas = [
+    firstName,
+    'Schmedtmann',
+    2037 - 1991,
+    'teacher',
+    friends
+];
+```
+
 Getting data out of an Array:
 
 You can pull data out of an array using the syntax below, which will result in "Micheal".
@@ -547,7 +560,7 @@ Passing arrays into functions:
 ## Array Operations (Methods)
 - `.push()` - adds and element to the end of an array
   - returns a value (length of the array), do get that value you can store it in a variable
-- `.unshift()` - adds an element to the end of an array
+- `.unshift()` - adds an element to the begining of an array
   - also returns value (length of the array)
 - `.pop()` - removes the last element from an array
   - returns value of removed element
@@ -557,3 +570,209 @@ Passing arrays into functions:
 - `.includes()` - returns `true` or `false` if the item is in an array or not
 
 
+## Objects
+Objects are another type of data structure in JavaScript. They allow you to define key value pairs. A major difference between arrays and objects, is that the order of items in an object does not matter when you want to retrieve the data (JavaScript will display these alphabetically).
+- can only access array information based on order information
+- use arrays for more ordered information and objects that have less order
+
+
+Object Literal Structure:
+```
+const object_name = {
+    key1: 'string_value_key1',
+    key2: number_value_key2,
+    key3: expression_key3,
+    key4: [array_key4]
+}
+```
+example (compare to array):
+```
+const jonas = {
+    firstName: 'Jonas',
+    lastName: 'Schmedtmann',
+    age: 2037 - 1991,
+    job: 'teacher',
+    friends:['Micheal', "Steven", 'Peter']
+};
+```
+The above object example has 5 properties (number of key values).
+
+## Dot vs. Bracket Notation
+Dot Notation
+```
+console.log(jonas.lastName);
+```
+Bracket Notation:
+```
+console.log(jonas['lastName']);
+```
+
+Both in the example above would return the same value. The only difference is that will bracket notation `[]` you can place an expression in the brackets to result in the value you want to pull from the object.
+```
+const nameKey = 'Name';
+console.log(jonas['first' + nameKey]);
+console.log(jonas['last' + nameKey]);
+```
+
+When computing a property name, the bracket `[]` notation must be used, all other cases best practice is to use dot `.` notation.
+
+Variables cannot be called in dot `.` notation: `object_name.variable_name` will return undefined (falsy value). Again, bracket `[]` notation must used to do this.
+
+Adding values to an Object:
+Dot notation
+- `jonas.location = 'Portugal';
+Bracket notation
+- `jonas['twitter'] = '@jonasschmedtman';`
+
+## Object Methods
+Any function attached to an object property is called a method. These functions are declared in the same manner as [function expressions](#Function-Declarations-VS-Expressions), with the only difference being instead of storing the function in a variable, it is now stored in a property of the object.
+
+Example with an object method (calcAge)
+```
+const jonas = {
+    firstName: 'Jonas',
+    lastName: 'Schmedtmann',
+    birthYear: 1991,
+    job: 'teacher',
+    friends:['Micheal', "Steven", 'Peter'],
+    hasDriversLicense: true,
+    calcAge: function(birthYear){
+        return 2037 - birthYear;
+    }
+};
+```
+
+How to call the value out of a object method (dot & bracket notation):
+```
+console.log(jonas.calcAge(1991));
+console.log(jonas['calcAge'](1991));
+```
+In the example above calcAge is referencing a property `birthYear` which is already defined in the object. This is repetitive and not a clean way to do this. Object methods actually have a way to call this property directly using the `this` keyword (`this` variable) to avoid entering the same data twice.
+```
+    calcAge: function(){
+           return 2037 - this.birthYear;
+    }
+```
+Notice - you don't need to put the property in the parenthesis.
+
+If you need to access the result in an object method multiple times, it can be cumbersome to call the function multiple times, so there is a more efficient way to do this. Instead you can calculate the age once and store it in the object and when the value is needed you can pull it from the property.
+
+```
+calcAge: function(){
+    this.age = 2037 - this.birthYear;
+    return this.age;
+}
+```
+The result of the function above is now stored in the property .age of jonas.
+
+Array's are actually special objects, which is why we are able to use array methods on them. The difference being, we are able to define our own methods with objects.
+
+## Iteration: The For Loop
+Loops are a type of control structure and are fundamental aspect of a programming language as they allow you to automate repetative tasks.
+
+For loop leeps running while condition is **TRUE**.
+
+For Loop Structure:
+```
+for(intial_state; condition; increment){
+    code to be executed;
+}
+
+for(let rep = 1; rep <= 10; rep++){
+    console.log(`Lifting weights repetition ${rep}  `)
+}
+```
+
+## Looping Arrays, Breaking and Continuing
+One of the most useful applications of the for loop is to loop through arrays.
+
+example:
+```
+const jonas = [
+    'Jonas',
+    'Schmedtmann',
+    2037 - 1991,
+    'teacher',
+    ['Micheal', "Steven", 'Peter']
+];
+
+//log every element of an array
+for (let i = 0; i < jonas.length; i++) {
+    console.log(jonas[i]);
+}
+```
+
+Loops can not only be used to read from an array, but also write to an existing array.
+- when doing this method there are two syntaxes that can be used:
+  - `types[i] = typeof jonas [i];`
+  - `types.push(typeof jonas[i]);`
+  - it is important to use .push vs .unshift as .unshift will change the order of the values
+
+```
+const types = []; //empty array
+
+for (let i = 0; i < jonas.length; i++) {
+    console.log(jonas[i], typeof jonas[i]);
+    types.push(typeof jonas[i]);
+}
+```
+
+Statements:
+- `continue` - exit current condition of loop and continue on starting at the next iteration
+    ```
+    //only want to print elements that are strings:
+    console.log('---ONLY STRINGS---')
+    for (let i = 0; i < jonas.length; i++) {
+        if (typeof jonas[i] !== 'string') continue;
+        console.log(jonas[i], typeof jonas[i]);
+    }
+    ```
+- `break` - completely exit the loop
+    ```
+    //want to exit loop after finding number:
+    console.log('---BREAK WITH NUMBER---')
+    for (let i = 0; i < jonas.length; i++) {
+        if (typeof jonas[i] === 'number') break;
+        console.log(jonas[i], typeof jonas[i]);
+    }
+    ```
+
+## Looping Backwards and Loops IN Loops
+Looping backwards through an array is very similar to looping forwards. The intial counter, condition, and increment just need to be updated to reflect the new end goal.
+
+example (looping backwards):
+```for (let i = jonas.length - 1; i >= 0; i-- ){
+    console.log(jonas[i]);
+}
+```
+Looping in a loop can be used to cycle through various conditions within a loop.
+
+example (loop in loop):
+```
+for (let exercise = 1; exercise <= 3; exercise++){
+    console.log(`-------Starting Exercise ${exercise} -------`)
+    for(let rep = 1; rep <= 5; rep++){
+        console.log(`Lifting weights repetition ${rep} 🏋️‍♀️ `)
+    }
+}
+```
+## The While Loop
+You can only specify the condition in the delcaration of a while loop. The other two components (repetitions and increment) outside of the loop.
+
+The while loop is more versitile because it doesn't need a counter. And as a result you can solve for specific problems **when you do not know how many times the loop should run**.
+
+```
+let dice = Math.trunc(Math.random() * 6) + 1;
+console.log(dice);
+
+while (dice !== 6){
+    console.log(`You rolled a ${dice}!`);
+    dice = Math.trunc(Math.random() * 6) + 1;
+}
+```
+
+Condition must be `TRUE` for the loop to continue.
+
+If you do not change the condition or re-prompt, you will create an infinite loop.
+
+# Developer Skills & Editor Setup
