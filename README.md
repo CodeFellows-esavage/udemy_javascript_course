@@ -5,6 +5,7 @@ Repository containing notes and all projects associated with the  complete-javas
 - [JavaScript Fundamentals Part 1](#JavaScript-Fundamentals-Part-1)
 - [JavaScript Fundamentals Part 2](#JavaScript-Fundamentals-Part-2)
 - [Developer Skills & Editor Setup](#Developer-Skills-&-Editor-Setup)
+- [HTML and CSS](#HTML-&-CSS)
 
 # JavaScript Fundamentals Part 1
 
@@ -776,3 +777,58 @@ Condition must be `TRUE` for the loop to continue.
 If you do not change the condition or re-prompt, you will create an infinite loop.
 
 # Developer Skills & Editor Setup
+
+Solving Problems:
+1. Make sure you 100% understand the problem. Ask the right questions to get a clear picture of the problem.
+2. Divide and conquer: Break a big problem into smaller sub-problems.
+3. Don't be afraid to do as much research as you have to.
+4. For bigger problems, write pseudo-code before writing the actual code.
+
+Use Google, StackOverflow and MDN to help find solutions you can understand to the problems you are having.
+
+Debugging Process
+1. Identify the BUG - become aware during development, testing, or user reports, understanding the context (browsers/users)
+2. Find the BUG - isolate exactly where the bug is happening in the code
+3. FIX the bug - replace the wrong solution with the new correct solution
+4. Prevent - search for the same bug in similar code, and/or write tests using testing software
+
+Debugging:
+- Using the chrome inspect tool, you can access the .js script in the `Sources` tab and insert break points in the code to identify where the bug is occuring
+
+# HTML & CSS
+`!` in vscode creates the basic html template:
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+```
+Best practice is to use class attributes vs id attributes when applying styling in CSS.
+
+Box Model:
+![Box Model](https://user-images.githubusercontent.com/2182637/36812968-fa45682a-1d26-11e8-80fe-414ecacf28ab.png)
+- **Content**: text, images, etc
+- **Padding**: transparent area around the content, inside of the box
+- **Border**: goes around the padding and the content
+- **Margin**: space between boxes
+- **Fill Area**: area that gets filled with background color or background image
+  - fills everything inside of margin
+
+Global selector `*` can be used to select all element types at the beginning of an HTML document and reset them as shown below.
+```
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+box-sizing: this makes it so when specifying the width of an element, it includes padding and borders.
