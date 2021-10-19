@@ -832,3 +832,134 @@ Global selector `*` can be used to select all element types at the beginning of 
 }
 ```
 box-sizing: this makes it so when specifying the width of an element, it includes padding and borders.
+
+# DOM and Event Fundamentals
+Selecting an element in JavaScript
+```
+document.querySelector('.message')
+```
+Selects an element of HTML using the name notation as CSS `.` for classes, and `#` for id's.
+- `.textContent` retrieves text message
+
+## DOM & DOM Manipulation
+DOM - Document Object Model, a structured representation of HTML documents. Allows JavaScript to access HTML elements and styles to manipulate them.
+    - change text, HTML attributes, and even CSS styles
+    - a connection point between HTML and JavaScript
+
+DOM Structure - the DOM is structured as a tree starting with the DOCUMENT declaration
+![DOM Tree](https://www.w3schools.com/js/pic_htmltree.gif)
+- the DOCUMENT is considered the entry point to the DOM because it is required to select elements
+- first child - html element
+- second child - head and body elements
+- going further accesses more child elements based on the HTML structure
+- further still, text for example is child of a `<p>` element and can be accessed through the DOM
+
+DOM Manipulation - JavaScript interacting with the webpage
+- DOM !== JavaScript
+- DOM and DOM methods are part of WEB API's (librarys written in JavaScript and available for our use)
+
+## Selecting and Manipulating Elements
+Using the element selection method above you can select an element and its text and assign it a new value using the assignment operator `=`.
+```
+document.querySelector('.message').textContent = '🎉 Correct Number!';
+```
+
+For input fields, `.value` is used to access or set the value of the field, similar to how `.textContent` is used to access text.
+```
+document.querySelector('.guess').value;
+```
+## On Click Events
+An event is something that happens on the page: keypress, mouse moving, mouse click, etc.
+
+Event Listener Method
+ - call the method after selecting the element `.addEventListener()`
+ - pass in the type of the event 'click'
+ - reaction to event (event handler) function value
+```
+document.querySelector('.check').addEventListener('click', function (){
+    console.log(document.querySelector('.guess').value);
+});
+```
+- the function isn't explictly called in the script but instead called by the event
+
+## Manipulating CSS Styles
+Start by selecting the element you want to manipulate using the `querySelector()`.
+
+Note traditionally the way items are referenced in CSS are using hypins `-` between the words, for example `background-color`. This is not an acceptable way to call it out in JavaScript, so instead it needs to be referenced using camelCase, for example `backgroundColor`.
+- CSS `background-color` is referenced as `backgroundColor` in JavaScript
+
+When manipulating a style, the assignment value needs to be input as 'string' that captures the value and any applicable units.
+```
+document.querySelector('body').style.backgroundColor = '#60b347';
+document.querySelector('.number').style.width = '30rem';
+```
+
+Manipulating styles in this manner does not modifiy the CSS file, it instead creates inline style directly in the HTML document.
+
+
+## Refactoring Code
+Refactoring - to restructure the code without changing how it works. Goal is to improve code and remove duplicate code.
+
+*--Modal Window Project--*
+
+Selecting all of the elements you need to reference and storing them in variables is a cleaner way to execute a project, vs selecting the element each time it needs to be referenced. This is typically executed at the begining of a script project.
+
+`querySelector()` only selects the first element with the type, class, or id. to select all, use `querySelectorAll()`.
+- selecting all of the elments like this behaves similarly to an array.
+- you can cycle through each element using a for loop, and the length of the selector is equivalent to the number of instances there are which can be reprensented by i
+    ```
+    for( let i = 0; i < btnsOpenModal.length; i++){
+        console.log(btnsOpenModal[i].textContent);
+    }
+    ```
+
+Modifying the Class:
+- use `.classList` which has many different modifiers
+  - when calling out the class you want to remove, no need for the `.` in front of if you are just passing in the name of the class as a string.
+    ```
+    modal.classList.remove('hidden');
+    ```
+
+When you need to manipulate styles on a page, using the classList (adding or removing) is cleaner.
+
+Keyboard events still utlize addEventListener, because the keypress event is another type of event. Keyboard events are global events because they do not happen on one specific element. 
+- For global events we listen on the whole document.
+  
+There are three types of events for the Keyboard
+- `keydown` - event is activated when the key is pressed down
+- `keypress` - event is continuously activated while the key is pressed
+- `keyup` - event is activated when the finger is lifted from the key
+
+We can look at which key was pressed, as event occures `e` JavaScript will call this function with the event object as an arguement. This works because we don't call this function ourselves (we are only defining it).
+- we say hey JavaScript call this function when a keydown event happens, when you do so, please pass in the event object as an arguement.
+    ```
+    document.addEventListener('keydown', function (e) {
+        console.log (e.key);
+        if(e.key ==='Escape' && !modal.classList.contains('hidden')) closeModal();
+        }
+    ```
+- using the key property of the key that was pressed, we are able to test for specific key presses as show above.
+
+*--Pig Game Project--*
+
+There are multiple ways to select an element using an ID
+- `document.querySelector('#score--0');` using query selector and # (same as css) and string of ID name
+- `document.getElementById('score--1');` using get by ID and string of ID name
+- get by ID is techincally faster across a large number of elements, but there is benefit to using the same syntax as classes (easier to read);
+
+Accessing Image Source:
+- Use `.src` on a selected element to access the image src. This can then be assigned a value to change the image.
+    ```
+    diceEl.src = `dice-${dice}.png`;
+    ``` 
+
+Toggling:
+- using the toggle method `.toggle()` the class will be removed if present or added if not present
+  
+Use template literals to access specific elements relevent to your code.
+
+
+
+
+
+
