@@ -6,6 +6,9 @@ Repository containing notes and all projects associated with the  complete-javas
 - [JavaScript Fundamentals Part 2](#JavaScript-Fundamentals-Part-2)
 - [Developer Skills & Editor Setup](#Developer-Skills-&-Editor-Setup)
 - [HTML and CSS](#HTML-&-CSS)
+- [DOM Events](#DOM-and-Event-Fundamentals)
+- [JavaScript Behind the Scenes](#JavaScript-Behind-the-Scenes)
+- [Data Stuctures, Modern Operators and Strings](#Data-Stuctures,-Modern-Operators-and-Strings)
 
 # JavaScript Fundamentals Part 1
 
@@ -958,8 +961,318 @@ Toggling:
   
 Use template literals to access specific elements relevent to your code.
 
+# JavaScript Behind the Scenes
+
+JavaScript is a high-level, object oriented, multi-paradigm programming language. (light explanation initially provided at start)
+
+JavaScript further broken down:
+1. High-level - every program needs HW resources to operate. Low-level lanugages require resource management, where high-level languages don't require resource management.
+   - one down side is that a program in a high-level language will never be as fast (optimized) as a program developed in a low-level language
+2. Garbage-collected - algorithm in JS that automatically removes old unused objects from memory to prevent it from getting bogged down
+3. Interpreted or just-in-time compiled - computers processors only understand 0's and 1's (machine code), JavaScript is written in human readable code that needs to be compiled or interpreted into machine code. This happens inside of the JavaScript engine
+4. Multi-paradigm - in coding a paradigm is an approach/mindset of structuring code, which will direct your coding style and technique. Paradigms are either imperative or delcarative.
+   1. Procedural Programming - organizing code in linear fashion
+   2. Object-Oriented Programming (OOP) - 
+   3. Functional Programming (FP) - 
+5. Prototype-based object-oriented - everything is an object except primative values (numbers, strings, etc). Prototypes inheritence is when an object such as an array is created from a template (protoype) it inherits the methods from the blueprint (prototype).
+6. First-class Functions - functions are treated as regular variables (you can pass functions into function, return functions from functions) this allows for functional programming (paradigm above).
+7. Dynamic - dynamically typed (we don't assign data types to variables) and typing can be reassigned. Most other languages require delcaring the type
+8. Single-threaded - JavaScript runs in one single thread, so it can only do one thing at a time
+   - concurrency model - how the JavaScript handles multiple tasks happening at the same time
+   - thread is a set of instructions executed in the CPU
+   - long-running tasks would block JavaScript? 'no'
+   - by using an event loop ...
+9.  Non-blocking event loop - by using an event loop long running tasks are executed in the "background" then put back into the main thread once they have finished
+
+## JavaScript Engine and Runtime
+JavaScript Engine - a computer program that executes JavaScript code
+ - every browser has a JavaScript engine
+ - most well known is google v8
+   - runs node.js and google chrome
+
+Every JavaScript Engine Contains
+1. Call Stack - where our code is executed using execution context
+2. Heap - unstructured memory pool that stores all of the objects our application needs
+
+Compilation vs Interpretation
+Compilation - the entire source code is converted into machine code at once, which is then written into a portable file that can be executed on any computer.
+- code is compiled and can be executed at a later time (think apps on a phone or computer)
+Interpretation - interpreter runs through source code and executes it line by line (converts to machine code)
+- code is read and executed at the same time
+- interpretation is **SLOWER** than complilation
+- JavaScript used to be interpreted, but modern JS engines use a mix between compliation and interpretation called just in time interpretation
+
+Just-in-time Interpretation - the entire code is converted into machine code at once and then executed immediately.
+- no portable file to execute
+
+Execution as code enters engine:
+1. Parse code - read the code, the code is parsed into the abstract syntax tree (AST), this step checks for syntax errors.
+2. Compilation - takes generated AST and coverts to machine code
+3. Execution - executed immediately
+4. Optimization - happens after execution and feeds back into compilation
+   - JS engines will quickly compile the bare minimum to get the code execution and will then will sometimes run multiple optimizations all while the code is being executed to improve performance.
+
+JavaScript Runtime (in browser)
+
+Runtime is a box that contains all of the components that JavaScript needs to run
+1. JavaScript Engine - heart of the runtime
+2. WEB APIs - DOM, timers, Fetch API, ...
+3. CallBack Queue - click, timer, data, ...
+4. Event Loop - takes functions from the callback queue and puts them into the call stack in the engine
+
+JavaScript Runtime (non-browser)
+1. JavaScript Engine - heart of the runtime
+2. C++ Bindings & thread pool
+3. CallBack Queue - click, timer, data, ...
+4. Event Loop - takes functions from the callback queue and puts them into the call stack in the engine
+
+## Execution Contexts and the Call Stack
+Execution Steps (immediately after code compilation):
+1. Creation of global execution context (top level code, outside of functions)
+   - functions are only executed when called
+   - only ever **one** global execution context per project regardless of size
+2.  Execution of top level code (inside global EC)
+3.  Execution of functions and waiting for callbacks
+   - one execution context per function, for each function call a new execution context is created
+
+Inside an Execution Context:
+- Variable Environment
+  - let, const, and var delcarations
+  - functions
+  - arguments object
+- Scope Chain - references to variables that are outside of a function
+- `this` keyword
+  
+All of the content above is generated during the "creation phase", right before execution
+
+Call Stack - the place where execution contexts get stacked on top of each other, to keep track of where we are in the execution
+- code runs in the call stack
+
+## Scope and the Scope Chain
+Scoping - controls how our programs variables are organized and accessed by the JavaScript Engine.
+- "where do the variables live?" or "where can I access a variable or where can't I?"
+
+Lexical Scoping - scoping is controlled by the palcement of functions and blocks in the programs code.
+- example a function written inside of another function as access to the parent functions variables
+
+Scope - the space or environment in which a certain variable is declared. (3 types of scopes)
+1. global scope
+2. function scope
+3. block scope
+
+Scope of a variable - Region of our code where a certain variable can be accessed.
+
+Global Scope:
+- top level code (variables declared outside of any function or block)
+- accessible everywhere
+
+Function Scope:
+- variables are only accessible inside of the function (NOT outside)
+- also called local scope
+
+Block Scope (ES6):
+- everything between curly braces `{}`
+- variables are accessible only inside of block
+- block scopes only apply to varibles declared with `let`, and `const`
+- functions are also blocked scoped in strict mode only
+
+The Scope Chain
+- child scopes always have access to parent scope variables all the way up to the global scope
+  - if a referenced variable is not found in the current scope, JS will continue to look up the parent chain until the varible is found (also know as **variable lookup**)
+- parent scopes will never have access to child scopes (one way street)
+  - scope chain only works upwards (not down or sideways)
+- `const` and `let` are block-scoped
+- `var` is function-scoped
+
+Scope Chain vs Call Stack
+- the scope chain has nothing to do with the order in which functions were called
+- the scope chain does get its variable environment from the execution context in the call stack
+  - in other words the scope chain is equal to adding together all of the variable environments of all of the parent scopes
+  - the order in which functions are **called** does NOT effect the scope chain, what matters is where the functions are **declared**!
+
+## Variable Environment: Hoisting and the TDZ
+Hoisting - makes some types of variables accessible/usable in the code before they are actually declared. "Variables lifted to the top of their scope." **<- not actually what happens**
+ - Before execution, code is scanned for variable declarations, and for each variable, a new property is created in the variable envrionment object.
+ - Hoisting works differently for each variable type
+   
+   | VARIABLE TYPE                  | HOISTED (Y/N) | INTIAL VALUE        | SCOPE   |
+   |--------------------------------|---------------|---------------------|---------|
+   |function delcarations           | YES           | actual function     | block   |
+   |`var` variables                 | YES           | undefined           | function|
+   |`let` and `const` variables     | NO            | uninitialized , TDZ | block   |
+   |function expressions and arrows | depends if using `var`, `let`, or `const`     | 
+
+    1. function declarations: can be used before they are declared in the code because they are stored in the variable environment object (even before code starts executing).
+    2. `var` variables: when attempting to access before it is declared in the code, will return `undefined`, this is a common source of bugs and one of the main reasons `let` and `const` are preferred.
+    3. `let` and `const` variables: value set to uninitalized and are placed in the TDZ (Temporal Dead Zone), will cause error if attempting to access before its declared in the code.
+    4. function expressions and arrows: depends on how the functions were declared `var`, `let`, or `const`, and follows those rules
+
+Temporal Dead Zone: - the region of the scope in which the variable is defined, but can't be used in any way, so it is as if the variable didn't even exist. This will output a reference error.
+ - this was introduced in ES6 as a way to avoid and catch errors
+ - accessing variables before they are declared is bad practice and the TDZ helps prevent this
+ - TDZ also makes `const` variables behave how they are supposed to. (can't reassign)
+
+```
+console.log(me); //undefined
+console.log(job); //in TDZ
+console.log(year); //in TDZ
+var me = 'Jonas';
+let job = 'teacher';
+const year = '1991';
+```
+
+Window
+- window is the global oject of JavaScript in the browser
+- accessed by typing `window` in the console
 
 
+## The THIS Keyword
+`this` keyword/variable - special variable that is created for every execution context (every function). Takes the value of (points to) the "owner" of the function in which the `this` keyword is used.
+- value is NOT static - it depends on howw the function is called, and its value is aonly assigned when the function is actually called.
+
+`this` value for the four (4) ways of calling a function:
+1. method, `this` = object that is calling the methods
+2. simple function call `this` = undefined (strict mode only) otherwise points to the global object
+3. arrow functions `this` = gets the `this` keyword of the surrounding function (parent)
+4. event listener `this` = DOM element that the handler is attached to
+
+`this` will never point to the function itself, and also not to its variable environment!
+
+## Regular Functions vs Arrow Functions
+Do not use an Arrow Function as a method within an object.
+
+`this` in a function call inside of a method (object) is undefined as it is treated as a regular function call (per rule 2 above).
+- Two (2) solutions to this problem:
+  -  Pre-ES6 Solution: delcare a variable outside of the function typically called `self`.
+    - `const self = this;`
+    - sometimes declared as `that`
+  - ES6 Solution: use an arrow function as the `this` keyword will be inherited from the object
+
+Arguments keyword can be used to see the array of arguments passed into a function. An arrow function doesn't get access to this keyword.
+
+## Primatives vs Objects
+Primative Data Types
+- number, string, boolean, undefined, null, symbol, and bigint
+- memory called primative types
+- stored in CALL STACK in JS Engine
+  - identifier (variable) points to address created in memory and at that address a value is stored
+  - values at an address are immutable (cannot be changed), when a new value is assigned to a variable, a new address is created in memory
+
+Objects
+- object literal, arrays, functions, and everything else...
+- memory called reference types
+- stored in memory HEAP in JS Engine
+  - memory address and value, but the object identifier is stored in the call stack with a separate memory address that has the object address stored as its value
+  - objects are too large to be stored in the CALL STACK which is why they are stored in the HEAP (near unlimited memory) and are called referenced types becuase they are referenced to the HEAP from the CALL STACK
+  - setting a new identifier = to another object identifier points the new identifier to the same CALL STACK memory address, which is referencing the obect address in the HEAP.
+- copying an object just created a new variable (identifier) that points to the same object
+
+When declaring an object using `const` you can reassign values to the various properties becuase the object value is pointing to the reference address in the HEAP, so changing the property values does not change the value address of the object identifier.
+- you cannot change the object it'self though, because this would change the reference address
+  ```
+  const jessica = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27,
+    }
+
+    const marriedJessica = jessica;
+    marriedJessica.lastName = 'Davis';
+    console.log('Before Marriage', jessica);
+    console.log('After Marriage', marriedJessica);
+
+    //marriedJessica = {}; not allowed because of const delcaration
+    ```
+
+Copying an Object (Shallow Copy):
+You can create a (shallow) copy an object by assigning a new object identifier using the `Object.assign()` method with an empty object and the object you want to copy.
+   
+```
+const jessica2 = {
+firstName: 'Jessica',
+lastName: 'Williams',
+age: 27,
+family: ['Alice', 'Bob'],
+}
+
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+```
+
+This however only works on the first level (which is why it is called a shallow copy), so if there is an object in an object the copy and the original will point to the same object.
+- example if the family array is modified in jessicaCopy object as shown above, it will also be changed in the jessica2 object because they are both pointing to the same array object.
+
+To truely make an independant copy you would need to create a deep clone, which is a complicated process that relies on external libraries.
+- this will be covered later.
+
+# Data Stuctures, Modern Operators and Strings
+
+## Destructuring Arrays
+Array Destructuring  - ES6 feature used to unpack values from an array or object and store them in individual variables. (breack complex structure down into simple structure)
+
+Destructuring of an array occures when declaring variables within brackets and assigning them the value of an array.
+```
+const arr = [2, 3, 4];
+const [x, y, z] = arr;
+```
+
+The above code creats variables with x = 2, y = 3, and z = 4.
+
+Not all elements of an array need to be used. The following example, the middle value is passed and x = 2, and y = 4 - the empty space ` ,` will skip the next array value. 
+```
+const arr = [2, 3, 4];
+const [x, , y] = arr;
+```
+
+Values can be easily swapped using array deconstuction. The following examples swaps the values of the main and secondary course at a resturant:
+```
+[main, secondary] = [secondary, main]
+console.log(main, secondary);
+```
+
+With destructured arrays you can also create a function that returns an array, and then immediately deconstruct the result into different variables, in short this allows multiple values to be returned from a function.
+```
+order: function (starterIndex, mainIndex){
+        return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+    },
+const [starter, mainCourse] = restaurant.order(2, 0);
+```
+
+Destucturing also works with nested arrays:
+```
+const nested = [2, 4, [5, 6]];
+const [i, , j] = nested;
+console.log(i, j); //i = 2, j = [5, 6]
+
+const [i, , [j, k]] = nested;
+console.log(i, j, k); //i = 2, j = 5, k = 6
+```
+
+Values can also be assigned to variable as you are deconstructing an array should the lenght of the array be unknown.
+```
+const [p, q, r] = [8, 9];
+console.log(p, q, r); // r is undefined
+
+const [p = 1, q = 1, r = 1] = [8, 9];
+console.log(p, q, r); //r = 1, p/q are reassigned with array value
+```
+
+## Destructuring Objects
+Destructuring an object is similar to destructing an array, only you use curly braces `{}` in place of brackets `[]`. Where they differ, is that the variable names need to be written with the exact property names within the braces `{}` for the desired properties of the object the you are trying to extract into variables. Also since the order of elements in an object do not matter, you don't have to manually skip over them like we do for an array.
+
+```
+const {name, openingHours, categories} = restaurant;
+```
+
+To change the variable name from the object property name simply deconstruct the object adding a colon and new name for the variable.
+```
+const {name: restaurantName, openingHours: hours, categories: tags} = restaurant;
+```
+
+Default values can be set for each object variable during deconstruction by using brackets `[]`. These values will be overwritten if an object property exsists with the called name, otherwise will be set to `[]`. This can also be used while assigning a new variable name.
+```
+const {menu = [], starterMenu: starters = []} = restaurant;
+```
 
 
 
